@@ -15,10 +15,27 @@
     <script src="./script/assets" defer></script>
     <script src="./script/sketch.js" defer></script>
   </head>
+  <style>
+    #direction {
+      font-size: 14px;
+      text-align: center;
+    }
+    #playButton {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      margin-top: 80px;
+      font-size: 16px;
+      color: #000000;
+    }
+  </style>
   <body>
-    <div class="viewport">
+    <div class="direction">
       <main>
         <section>
+          <div class="container">
+            <h5 id="direction">Do you want to see a ball dancing to music?</h5>
+          </div>
           <div class="container">
             <div id="canvas"></div>
           </div>

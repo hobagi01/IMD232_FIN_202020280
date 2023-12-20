@@ -1,3 +1,11 @@
+// Original Code from: https://www.youtube.com/watch?v=vmhRlDyPHMQ&list=PLwUlLzAS3RYow0T9ZXB0IomwB-DyBRTfm
+// ColorfulCoding
+// Sine wave structures in p5.js | Coding Project #1
+
+// also THANKS TO GPT..
+
+//Modified by Hye-yeong Shin
+
 // 사용자 조절 가능한 매개변수
 let amplitudeSlider, speedSlider, colorSlider;
 let song, fft;
@@ -31,6 +39,7 @@ function setup() {
 
   // 음악 재생 버튼 초기화
   playButton = createButton('MUSIC PLAY!');
+  playButton.id('playButton');
   playButton.position(windowWidth / 2 - 50, 20); // 위쪽 가운데로 이동
   playButton.mousePressed(togglePlay);
 
@@ -39,8 +48,10 @@ function setup() {
   fft.setInput(song);
 }
 
+//캔버스 리사이즈
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+
   // 슬라이더 위치 다시 설정
   let sliderX = 20;
   let sliderY = height - 120;
@@ -58,11 +69,11 @@ function windowResized() {
 }
 
 function draw() {
-  background(30);
+  background(0);
 
   rotateX(frameCount * 0.5);
 
-  // Adjust the noise parameters for a smoother animation
+  // 더 부드러운 애니메이션을 위해 노이즈 매개변수 조정
   var noiseFactor = 0.005;
   var noiseZ = frameCount * noiseFactor;
 
@@ -76,7 +87,7 @@ function draw() {
     var g = map(i, 0, 50, 100, 400);
     var b = map(cos(frameCount), -1, 1, 200, 100);
 
-    // Vary rotation speed and direction
+    // 다양한 로테이션 스피드와 방향
     var rotationSpeed = sin(frameCount / 20 + i) * 5 * speedSlider.value();
     rotate(rotationSpeed);
 
@@ -85,32 +96,36 @@ function draw() {
       var x = rad * cos(j);
       var y = rad * sin(j);
 
-      // Add a pulsating effect to the spheres with vertical oscillation
+      // 수직 진동으로 구면에 움직이는 효과 추가
       var oscillation = sin(frameCount * 0.1 + i) * amplitudeSlider.value();
       var z =
         oscillation * cos(frameCount * 0.1 + i) +
         sin(frameCount * 4 + i * 5 + noise(noiseZ)) * 60;
 
-      // Calculate size based on frequency
+      // 주파수를 기준으로 크기를 계산
       var freqIndex = floor((j / 360) * spectrum.length);
       var sizeFactor = map(spectrum[freqIndex], 0, 255, 0.5, 2);
 
       push();
       translate(x, y, z);
-      fill(r, g, b, brightnessValue); // Use the color variables and slider value for each sphere
-      sphere(8 * sizeFactor); // Draw spheres instead of vertices
+      fill(r, g, b, brightnessValue); // 각 구에 대한 색상 변수 및 슬라이더 값 사용
+      sphere(8 * sizeFactor); //구 그리기
       pop();
     }
   }
 }
 
-// 음악 재생/일시 중지 토글 함수
+// 음악 재생/일시 중지 토글
 function togglePlay() {
   if (song.isPlaying()) {
     song.pause();
     playButton.html('MUSIC PLAY!');
+    // playButton.style('color', '#000000');
+    playButton.style('font-weight', 'normal');
   } else {
     song.play();
-    playButton.html('STOP!!');
+    playButton.html('THATS ENOUGH');
+    // playButton.style('color', '#0000ff');
+    playButton.style('font-weight', 'bold');
   }
 }
